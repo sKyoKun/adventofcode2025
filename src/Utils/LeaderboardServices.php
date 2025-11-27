@@ -6,15 +6,9 @@ namespace App\Utils;
 
 class LeaderboardServices
 {
-    private const LEADERBOARDS = [
-        'WA - Sonia' => 1112427,
-        'WA - Guillaume' => 4234761,
-        'Ladies Of Code' => 377752,
-        'Aramis Auto' => 3299508
-    ];
     private const AOC_API_URL = 'https://adventofcode.com/__YEAR__/leaderboard/private/view/__LEADERBOARDID__.json';
 
-    public function __construct(private string $cookie)
+    public function __construct(private string $cookie, private array $leaderboards)
     {
     }
 
@@ -31,10 +25,10 @@ class LeaderboardServices
 
         // Open the file using the HTTP headers set above
         $json = [];
-         foreach (self::LEADERBOARDS as $leaderboardName => $leaderboardId) {
+         foreach ($this->leaderboards as $leaderboard) {
              $url = str_replace('__YEAR__', ''.$year, self::AOC_API_URL);
-             $url = str_replace('__LEADERBOARDID__', ''.$leaderboardId, $url);
-             $json[$leaderboardName] = file_get_contents($url, false, $context);
+             $url = str_replace('__LEADERBOARDID__', ''.$leaderboard['id'], $url);
+             $json[$leaderboard['name']] = file_get_contents($url, false, $context);
          }
 
         return $json;

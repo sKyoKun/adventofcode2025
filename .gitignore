@@ -30,3 +30,8 @@
 
 cookie.txt
 /public/Files/day*[0-9].txt
+
+###> symfony/asset-mapper ###
+/public/assets/
+/assets/vendor/
+###< symfony/asset-mapper ###

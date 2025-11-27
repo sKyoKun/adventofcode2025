@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>AoC {{ year }} Leaderboards</title>
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    {% block importmap %}{{ importmap('app') }}{% endblock %}
 </head>
 <body>
 <h1>Advent of Code {{ year }} Leaderboards</h1>
