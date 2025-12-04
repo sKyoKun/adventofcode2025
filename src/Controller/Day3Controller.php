@@ -36,7 +36,12 @@ class Day3Controller extends AbstractController
     public function part2(string $file): JsonResponse
     {
         $lines = $this->inputReader->getInput($file.'.txt');
+        $banks = $this->calendarServices->parseInputFromStringsToIntArray($lines);
+        $totalOutput = 0;
+        foreach ($banks as $bank) {
+            $totalOutput += $this->day3services->calculateLargestJoltagelamps($bank, 12);
+        }
 
-        return new JsonResponse('', Response::HTTP_NOT_ACCEPTABLE);
+        return new JsonResponse($totalOutput, Response::HTTP_OK);
     }
 }

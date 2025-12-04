@@ -21,4 +21,22 @@ class Day3Services
 
         return $joltage;
     }
+
+    public function calculateLargestJoltagelamps(array $bank, int $toTurnOn = 12) : int
+    {
+        $joltage = '';
+        $maxPos = -1;
+        for ($i = $toTurnOn; $i > 0; $i--) {
+            $max = 0;
+            for ($j = $maxPos+1; $j <= count($bank)-$i; $j++) {
+                if ($bank[$j] > $max) {
+                    $max = $bank[$j];
+                    $maxPos = $j;
+                }
+            }
+            $joltage .= $max;
+        }
+
+        return (int) $joltage;
+    }
 }
