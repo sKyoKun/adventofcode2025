@@ -30,15 +30,17 @@ class Day6Controller extends AbstractController
             $total += $this->day6services->calculateColumn($parsedInput, $column, $operandLine);
         }
 
-
         return new JsonResponse($total, Response::HTTP_OK);
     }
 
     #[Route('/2/{file}', name: 'day6_2', defaults: ["file"=>"day6"])]
     public function part2(string $file): JsonResponse
     {
-        $lines = $this->inputReader->getInput($file.'.txt');
+        $lines = $this->inputReader->getInputNotTrimmed($file.'.txt');
+        $cephalopodsProblem = $this->day6services->parseCephalopodProblem($lines);
+        $operands = $this->day6services->getOperandsPerProblem($lines);
+        $total = $this->day6services->calculateRealProblem($cephalopodsProblem, $operands);
 
-        return new JsonResponse('', Response::HTTP_NOT_ACCEPTABLE);
+        return new JsonResponse($total, Response::HTTP_OK);
     }
 }

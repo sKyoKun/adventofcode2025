@@ -26,4 +26,18 @@ class InputReader
 
         return $inputs;
     }
+
+    public function getInputNotTrimmed(string $file): array
+    {
+        $inputs = [];
+        $content = fopen($this->fileDir . $file, 'r');
+
+        while (($line = fgets($content)) !== false) {
+            $inputs[] = str_replace("\n", "", $line);
+        }
+
+        fclose($content);
+
+        return $inputs;
+    }
 }
