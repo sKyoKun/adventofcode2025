@@ -59,6 +59,24 @@ class CalendarServices
         return $finalArray;
     }
 
+    // a    bc  d turns to ['a', 'bc', 'd']
+    public function parseInputFromStringsWithUnevenSpaceToArray(array $lines)
+    {
+        $finalArray = [];
+
+        foreach ($lines as $key => $line) {
+            $arrLine = explode(' ', $line);
+            foreach ($arrLine as $explodedKey => $value) {
+                if ('' === $value) {
+                    unset($arrLine[$explodedKey]);
+                }
+            }
+            $finalArray[$key] = array_values($arrLine);
+        }
+
+        return $finalArray;
+    }
+
     public function parseInputFromStringsToIntArray(array $lines)
     {
         $finalArray = [];
