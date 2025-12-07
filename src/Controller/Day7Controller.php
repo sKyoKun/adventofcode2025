@@ -33,7 +33,9 @@ class Day7Controller extends AbstractController
     public function part2(string $file): JsonResponse
     {
         $lines = $this->inputReader->getInput($file.'.txt');
+        $grid = $this->calendarServices->parseInputFromStringsToArray($lines);
+        $timelines = $this->day7services->countTimelines($grid);
 
-        return new JsonResponse('', Response::HTTP_NOT_ACCEPTABLE);
+        return new JsonResponse($timelines, Response::HTTP_OK);
     }
 }

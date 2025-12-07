@@ -28,6 +28,37 @@ class Day7Services
         return $totalSplit;
     }
 
+    // @see https://fr.wikipedia.org/wiki/Triangle_de_Pascal
+    public function countTimelines(array &$grid): int
+    {
+        $computedBeamPositions = [];
+        $this->initializeComputedBeamPositions($grid, $computedBeamPositions);
+
+        $startPos = array_search('S', $grid[0]);
+        $computedBeamPositions[1][$startPos] = 1; // the first beam is right under the S
+
+        for ($i = 2; $i < count($grid); $i++) {
+            for ($j = 0; $j < count($grid[$i]); $j++) {
+                if ('^' === $grid[$i][$j]) {
+                    // when we encounter a ^ then the beam disappear (the count returns to 0)
+                    $computedBeamPositions[$i][$j] = 0;
+                    // both right and left get the previous beam counter as it splits (and it may have been already
+                    // set by another ^ so we add the current value)
+                    $computedBeamPositions[$i][$j-1] += $computedBeamPositions[$i-1][$j];
+                    $computedBeamPositions[$i][$j+1] += $computedBeamPositions[$i-1][$j];
+                }
+                else {
+                    // the beam continues so the value is the same
+                    $computedBeamPositions[$i][$j] += $computedBeamPositions[$i-1][$j];
+                }
+            }
+        }
+
+        $lastLine = array_pop($computedBeamPositions);
+
+        return array_sum($lastLine);
+    }
+
     private function canDuplicateBeam(array $grid, int $i, int $j): bool
     {
         if ('^' === $grid[$i][$j] && '|' === $grid[$i-1][$j]) {
@@ -44,5 +75,14 @@ class Day7Services
         }
 
         return false;
+    }
+
+    private function initializeComputedBeamPositions(array $grid, array &$computedBeamPositions): void
+    {
+        for ($i = 0; $i < count($grid); $i++) {
+            for($j = 0; $j < count($grid[$i]); $j++) {
+                $computedBeamPositions[$i][$j] = 0;
+            }
+        }
     }
 }
