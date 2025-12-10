@@ -4,14 +4,11 @@ Feature:
     I want to check the values expected in the example against the one found by my code
 
     Scenario: Check part1
-        When I request "/day8/1/day8" using HTTP method "GET"
+        When I request "/day8/1/day8test" using HTTP method "GET"
         Then the status code must be 200
         And the response should be "40"
 
     Scenario: Check part2
         When I request "/day8/2/day8test" using HTTP method "GET"
         Then the status code must be 200
-        And the response should be ""
-
-
-        # 40240 too low
+        And the response should be "25272"

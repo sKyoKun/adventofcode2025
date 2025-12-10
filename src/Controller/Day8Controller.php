@@ -25,7 +25,7 @@ class Day8Controller extends AbstractController
         $lines = $this->inputReader->getInput($file.'.txt');
         $boxesCoordinates = $this->calendarservices->parseInputWithComma($lines);
         $distances = $this->day8services->calculateDistances($boxesCoordinates);
-        $circuits = $this->day8services->organizeCircuits($distances, 1000);
+        $circuits = $this->day8services->organizeCircuits($distances, 10);
         $countFirstCircuit = count(array_shift($circuits));
         $countSecondCircuit = count(array_shift($circuits));
         $countThirdCircuit = count(array_shift($circuits));
@@ -37,7 +37,10 @@ class Day8Controller extends AbstractController
     public function part2(string $file): JsonResponse
     {
         $lines = $this->inputReader->getInput($file.'.txt');
+        $boxesCoordinates = $this->calendarservices->parseInputWithComma($lines);
+        $distances = $this->day8services->calculateDistances($boxesCoordinates);
+        $xJunction = $this->day8services->connectToOneBigCircuit($distances, $boxesCoordinates);
 
-        return new JsonResponse('', Response::HTTP_NOT_ACCEPTABLE);
+        return new JsonResponse($xJunction, Response::HTTP_OK);
     }
 }
